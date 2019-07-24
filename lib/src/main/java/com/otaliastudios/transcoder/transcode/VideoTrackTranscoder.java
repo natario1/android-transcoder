@@ -169,14 +169,25 @@ public class VideoTrackTranscoder implements TrackTranscoder {
             mEncoderInputSurface = null;
         }
         if (mDecoder != null) {
-            if (mDecoderStarted) mDecoder.stop();
-            mDecoder.release();
-            mDecoder = null;
+            try{
+                if (mDecoderStarted)
+                    mDecoder.stop();
+                mDecoder.release();
+                mDecoder = null;
+            }catch(Exception e){
+                LOG.e("Error stopping decoder. Probably its already released "+e.getMessage());
+            }
         }
         if (mEncoder != null) {
-            if (mEncoderStarted) mEncoder.stop();
-            mEncoder.release();
-            mEncoder = null;
+            try{
+                if (mEncoderStarted)
+                    mEncoder.stop();
+                mEncoder.release();
+                mEncoder = null;
+            }catch(Exception e){
+                LOG.e("Error stopping encoding. Probably its already released "+e.getMessage());
+            }
+
         }
     }
 
@@ -264,7 +275,12 @@ public class VideoTrackTranscoder implements TrackTranscoder {
     @SuppressWarnings("SameParameterValue")
     private int drainEncoder(long timeoutUs) {
         if (mIsEncoderEOS) return DRAIN_STATE_NONE;
-        int result = mEncoder.dequeueOutputBuffer(mBufferInfo, timeoutUs);
+        int result = MediaCodec.INFO_TRY_AGAIN_LATER;
+        try{
+            result = mEncoder.dequeueOutputBuffer(mBufferInfo, timeoutUs);
+        }catch(Exception e){
+            LOG.e("Error dequeingoutputbuffer ", e);
+        }
         switch (result) {
             case MediaCodec.INFO_TRY_AGAIN_LATER:
                 return DRAIN_STATE_NONE;
