@@ -1,6 +1,7 @@
 package com.otaliastudios.transcoder;
 
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
@@ -11,6 +12,7 @@ import com.otaliastudios.transcoder.resample.AudioResampler;
 import com.otaliastudios.transcoder.resample.DefaultAudioResampler;
 import com.otaliastudios.transcoder.sink.DataSink;
 import com.otaliastudios.transcoder.sink.DefaultDataSink;
+import com.otaliastudios.transcoder.source.AssetFileDescriptorDataSource;
 import com.otaliastudios.transcoder.source.DataSource;
 import com.otaliastudios.transcoder.source.FileDescriptorDataSource;
 import com.otaliastudios.transcoder.source.FilePathDataSource;
@@ -162,37 +164,43 @@ public class TranscoderOptions {
         }
 
         @NonNull
-        @SuppressWarnings("unused")
         public Builder addDataSource(@NonNull FileDescriptor fileDescriptor) {
             return addDataSource(new FileDescriptorDataSource(fileDescriptor));
         }
 
         @NonNull
-        @SuppressWarnings("unused")
         public Builder addDataSource(@NonNull TrackType type, @NonNull FileDescriptor fileDescriptor) {
             return addDataSource(type, new FileDescriptorDataSource(fileDescriptor));
         }
 
         @NonNull
-        @SuppressWarnings("unused")
+        public Builder addDataSource(@NonNull AssetFileDescriptor assetFileDescriptor) {
+            return addDataSource(new AssetFileDescriptorDataSource(assetFileDescriptor));
+        }
+
+        @NonNull
+        public Builder addDataSource(@NonNull TrackType type, @NonNull AssetFileDescriptor assetFileDescriptor) {
+            return addDataSource(type, new AssetFileDescriptorDataSource(assetFileDescriptor));
+        }
+
+        @NonNull
         public Builder addDataSource(@NonNull String inPath) {
             return addDataSource(new FilePathDataSource(inPath));
         }
 
         @NonNull
-        @SuppressWarnings("unused")
         public Builder addDataSource(@NonNull TrackType type, @NonNull String inPath) {
             return addDataSource(type, new FilePathDataSource(inPath));
         }
 
         @NonNull
-        @SuppressWarnings({"unused", "UnusedReturnValue"})
+        @SuppressWarnings({"UnusedReturnValue"})
         public Builder addDataSource(@NonNull Context context, @NonNull Uri uri) {
             return addDataSource(new UriDataSource(context, uri));
         }
 
         @NonNull
-        @SuppressWarnings({"unused", "UnusedReturnValue"})
+        @SuppressWarnings({"UnusedReturnValue"})
         public Builder addDataSource(@NonNull TrackType type, @NonNull Context context, @NonNull Uri uri) {
             return addDataSource(type, new UriDataSource(context, uri));
         }
@@ -205,7 +213,6 @@ public class TranscoderOptions {
          * @return this for chaining
          */
         @NonNull
-        @SuppressWarnings("unused")
         public Builder setAudioTrackStrategy(@Nullable TrackStrategy trackStrategy) {
             this.audioTrackStrategy = trackStrategy;
             return this;
@@ -219,7 +226,6 @@ public class TranscoderOptions {
          * @return this for chaining
          */
         @NonNull
-        @SuppressWarnings("unused")
         public Builder setVideoTrackStrategy(@Nullable TrackStrategy trackStrategy) {
             this.videoTrackStrategy = trackStrategy;
             return this;
@@ -255,7 +261,6 @@ public class TranscoderOptions {
          * @return this for chaining
          */
         @NonNull
-        @SuppressWarnings("unused")
         public Builder setValidator(@Nullable Validator validator) {
             this.validator = validator;
             return this;
@@ -269,7 +274,6 @@ public class TranscoderOptions {
          * @return this for chaining
          */
         @NonNull
-        @SuppressWarnings("unused")
         public Builder setVideoRotation(int rotation) {
             this.videoRotation = rotation;
             return this;
@@ -299,7 +303,6 @@ public class TranscoderOptions {
          * @return this for chaining
          */
         @NonNull
-        @SuppressWarnings("unused")
         public Builder setSpeed(float speedFactor) {
             return setTimeInterpolator(new SpeedTimeInterpolator(speedFactor));
         }
@@ -313,7 +316,6 @@ public class TranscoderOptions {
          * @return this for chaining
          */
         @NonNull
-        @SuppressWarnings("unused")
         public Builder setAudioStretcher(@NonNull AudioStretcher audioStretcher) {
             this.audioStretcher = audioStretcher;
             return this;
@@ -328,7 +330,6 @@ public class TranscoderOptions {
          * @return this for chaining
          */
         @NonNull
-        @SuppressWarnings("unused")
         public Builder setAudioResampler(@NonNull AudioResampler audioResampler) {
             this.audioResampler = audioResampler;
             return this;

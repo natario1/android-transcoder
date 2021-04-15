@@ -57,6 +57,7 @@ internal class Tracks(
             strategy: TrackStrategy,
             sources: List<DataSource>? // null or not-empty
     ): Pair<MediaFormat, TrackStatus> {
+        log.i("resolveTrack($type), sources=${sources?.size}, strategy=${strategy::class.simpleName}")
         if (sources == null) {
             return MediaFormat() to TrackStatus.ABSENT
         }

@@ -15,16 +15,26 @@ import com.otaliastudios.transcoder.common.TrackType;
  */
 public class DataSourceWrapper implements DataSource {
 
-    private final DataSource mSource;
+    private DataSource mSource;
 
     @SuppressWarnings("WeakerAccess")
     protected DataSourceWrapper(@NonNull DataSource source) {
         mSource = source;
     }
 
+    // Only use if you know what you are doing
+    protected DataSourceWrapper() {
+        mSource = null;
+    }
+
     @NonNull
     protected DataSource getSource() {
         return mSource;
+    }
+
+    // Only use if you know what you are doing
+    protected void setSource(@NonNull DataSource source) {
+        mSource = source;
     }
 
     @Override
