@@ -37,8 +37,7 @@ public class SpeedTimeInterpolator implements TimeInterpolator {
      * Returns the factor passed to the constructor.
      * @return the factor
      */
-    @SuppressWarnings("unused")
-    public float getFactor() {
+    public float getFactor(@NonNull TrackType type, long time) {
         return (float) mFactor;
     }
 
@@ -50,7 +49,7 @@ public class SpeedTimeInterpolator implements TimeInterpolator {
             data.lastCorrectedTime = time;
         } else {
             long realDelta = time - data.lastRealTime;
-            long correctedDelta = (long) ((double) realDelta / mFactor);
+            long correctedDelta = (long) ((double) realDelta / getFactor(type, time));
             data.lastRealTime = time;
             data.lastCorrectedTime += correctedDelta;
         }
